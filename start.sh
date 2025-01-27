@@ -2,4 +2,6 @@
 
 npx w2 start
 
-source ./.env && node index.mjs
+# source ./.env 
+# echo $LAMBDA_URL
+node --env-file='.env' index.mjs

@@ -1,4 +1,5 @@
 import http from 'node:http'
+import process from 'node:process'
 
 // Create an 
 const server = http.createServer(async (req, res) => {
