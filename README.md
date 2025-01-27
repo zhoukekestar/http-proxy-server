@@ -67,3 +67,7 @@ LAMBDA_URL=https://xxx.ap-southeast-1.amazonaws.com/xxx-123456/
 * DO not suuport stream
   * Maybe you can try [Vless on Cloudflare](https://zhoukekestar.github.io/notes/2023/10/22/CF-workers.html). This http-proxy-server is used by some sites which Cloudflare can't visit directly.
  
+# TODOS
+
+* [ ] Support POST method.
+
