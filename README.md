@@ -3,6 +3,9 @@
 
   The HTTP proxy server employs a middleware hack to handle HTTPS requests via Whistle, subsequently routing them to AWS Lambda. The Lambda function simply executes a Fetch operation and returns the result to the browser. Please be advised that this implementation is solely intended for website viewing functionality.
 
+
+  该HTTP代理服务器采用中间件技巧，通过Whistle处理HTTPS请求，随后将其路由到AWS Lambda。Lambda函数仅执行Fetch操作并将结果返回给浏览器。请注意，此实现仅用于网站浏览功能。
+
 ## Step 1
 
   Clone this repo to local.
