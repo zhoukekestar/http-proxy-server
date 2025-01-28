@@ -69,5 +69,7 @@ LAMBDA_URL=https://xxx.ap-southeast-1.amazonaws.com/xxx-123456/
  
 # TODOS
 
-* [ ] Support POST method.
+* [x] Support POST method.
+* [x] Support 301/302
+* [x] Support Google/Medium 
 

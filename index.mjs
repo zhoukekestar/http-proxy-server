@@ -1,10 +1,29 @@
 import http from 'node:http'
 import process from 'node:process'
 
-// Create an 
+// function:
+function getBody(request) {
+  return new Promise((resolve) => {
+    const bodyParts = [];
+    let body;
+    request.on('data', (chunk) => {
+      bodyParts.push(chunk);
+    }).on('end', () => {
+      body = Buffer.concat(bodyParts);
+      resolve(body)
+    });
+  });
+}
+// Create an
 const server = http.createServer(async (req, res) => {
   const url = `https://${req.headers.host}${req.url || ''}`
-  console.log('proxy', url);
+  console.log('proxy ', req.method, ' ',  url);
+
+  let body = null;
+
+  if (req.method === 'POST') {
+    body = await getBody(req);
+  }
 
   const proxyRes = await fetch(
     process.env.LAMBDA_URL,
@@ -17,14 +36,15 @@ const server = http.createServer(async (req, res) => {
         url: url,
         headers: req.headers,
         method: req.method,
-        // body: req.body
+        body: body ? Buffer.from(body).toString('base64') : null,
       })
     }
   )
   try {
     const headers = Object.fromEntries(proxyRes.headers)
-    res.writeHead(proxyRes.status, headers)
     const responseBody = await proxyRes.arrayBuffer();
+
+    res.writeHead(proxyRes.status, headers)
     res.write( Buffer.from(responseBody));
   } catch (er) {
     console.log(er)
