@@ -25,22 +25,23 @@ const server = http.createServer(async (req, res) => {
     body = await getBody(req);
   }
 
-  const proxyRes = await fetch(
-    process.env.LAMBDA_URL,
-    {
-      method: 'post',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        url: url,
-        headers: req.headers,
-        method: req.method,
-        body: body ? Buffer.from(body).toString('base64') : null,
-      })
-    }
-  )
   try {
+    const proxyRes = await fetch(
+      process.env.LAMBDA_URL,
+      {
+        method: 'post',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          url: url,
+          headers: req.headers,
+          method: req.method,
+          body: body ? Buffer.from(body).toString('base64') : null,
+        })
+      }
+    )
+
     const headers = Object.fromEntries(proxyRes.headers)
     const responseBody = await proxyRes.arrayBuffer();
 
