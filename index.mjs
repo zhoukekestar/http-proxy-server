@@ -45,6 +45,14 @@ const server = http.createServer(async (req, res) => {
     const headers = Object.fromEntries(proxyRes.headers)
     const responseBody = await proxyRes.arrayBuffer();
 
+    const contentEncoding = headers['x-aws-proxy-content-encoding'];
+    if (contentEncoding) {
+      console.log('proxy ', req.method, ' ',  url, ' ', contentEncoding );
+      delete headers['x-aws-proxy-content-encoding'];
+      // headers['content-encoding'] = contentEncoding;
+    }
+
+    console.log('proxy ', req.method, ' ',  url, ' ', headers );
     res.writeHead(proxyRes.status, headers)
     res.write( Buffer.from(responseBody));
   } catch (er) {

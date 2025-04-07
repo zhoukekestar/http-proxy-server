@@ -15,9 +15,17 @@ export const handler = async event => {
 
     console.log('new response ', responseBody, statusCode, responseHeaders);
 
+
+    // 长度会重新计算
     delete responseHeaders['content-length'];
+
+    // 连接状态不需要
     delete responseHeaders['connection'];
+
+    // 需透传编码，但 aws 网关有 base64 限制，所以需另外返回
+    const contentEncoding = responseHeaders['content-encoding'];
     delete responseHeaders['content-encoding'];
+    responseHeaders['x-aws-proxy-content-encoding'] = contentEncoding;
 
     const base64Response = new Uint8Array(responseBody);
     return {
